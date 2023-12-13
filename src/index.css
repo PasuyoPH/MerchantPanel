@@ -1,0 +1,37 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+input, textarea {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  outline: none;
+  border: 2px solid transparent;
+}
+
+input:active, input:focus, textarea:active, textarea:focus {
+  border: 2px solid #7eb2ff;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr {
+  transition: ease-in-out .2s;
+}
+
+tr:hover {
+  background-color: #dddddd;
+}
