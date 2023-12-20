@@ -71,7 +71,8 @@ const Settings = (props: PageProps) => {
             banner: bannerUrl,
             logo: profileUrl,
             types,
-            accent
+            accent,
+            open
           },
           headers: {
             Authorization: props.token
