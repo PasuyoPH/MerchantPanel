@@ -345,7 +345,7 @@ const Settings = (props: PageProps) => {
 
         {
           filters.map(
-            (filter, idx) => idx !== 0 ? (
+            (filter, idx) => (
               <div
                 key={idx}
                 style={
@@ -381,7 +381,7 @@ const Settings = (props: PageProps) => {
                   text={filter?.name}
                 />
               </div>
-            ) : null
+            )
           )
         }
       </div>
