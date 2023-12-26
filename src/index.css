@@ -10,6 +10,7 @@ input, textarea {
   border-radius: 10px;
   outline: none;
   border: 2px solid transparent;
+  user-select: auto;
 }
 
 input:active, input:focus, textarea:active, textarea:focus {
