@@ -215,30 +215,21 @@ const NewAddress = (props: PageProps) => {
           />
         </div>
 
-        {
-          currentPosition ? (
-            <GoogleMapReact
-              bootstrapURLKeys={
-                { key: 'AIzaSyAe1O4RsaElYL79mHnPSHRGL_lVCf9uP0M' }
-              }
-              center={currentPosition}
-              defaultZoom={10}
-              onChange={
-                (event) => setCurrentPosition(event.center)
-              }
-            />
-          ) : (
-            <div
-              style={
-                {
-                  width: '100%',
-                  height: 480,
-                  backgroundColor: 'lightgrey'
-                }
-              }
-            />
-          )
-        }
+        <GoogleMapReact
+          bootstrapURLKeys={
+            { key: 'AIzaSyAe1O4RsaElYL79mHnPSHRGL_lVCf9uP0M' }
+          }
+          center={
+            {
+              lat: currentPosition?.lat ?? 14.864412129509162,
+              lng: currentPosition?.lng ?? 120.28991877528091
+            }
+          }
+          defaultZoom={10}
+          onChange={
+            (event) => setCurrentPosition(event.center)
+          }
+        />
       </div>
 
       <Modal
