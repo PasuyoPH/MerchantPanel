@@ -36,6 +36,8 @@ const NewAddress = (props: PageProps) => {
 
   useEffect(
     () => {
+      console.log(navigator)
+
       navigator.geolocation.getCurrentPosition(
         (position) => setCurrentPosition(
           {
@@ -148,7 +150,7 @@ const NewAddress = (props: PageProps) => {
               text='Add new address'
             />
 
-            <Autocomplete
+            {/*<Autocomplete
               apiKey='AIzaSyAe1O4RsaElYL79mHnPSHRGL_lVCf9uP0M'
               options={
                 {
@@ -177,8 +179,8 @@ const NewAddress = (props: PageProps) => {
                   )
                 }
               }
-              libraries={['places']}
-            />
+              libraries={['establishment']}
+            />*/}
           </div>
 
           <div>
@@ -190,7 +192,7 @@ const NewAddress = (props: PageProps) => {
               }
               onPress={
                 () => {
-                  reverseLocationGeocode()
+                  //reverseLocationGeocode()
                   setModalShown(true)
                 }
               }
@@ -256,8 +258,6 @@ const NewAddress = (props: PageProps) => {
           }
         }
       >
-        {
-          form.text ? (
             <div
               style={
                 {
@@ -299,10 +299,15 @@ const NewAddress = (props: PageProps) => {
                   />
                 </div>
 
-                <Label
-                  size={12}
-                  color={Constants.Colors.Text.secondary}
-                  text={form.text}
+                <input
+                  placeholder='Input Address'
+                  onChange={
+                    (event) => setForm(
+                      (currentForm) => (
+                        { ...currentForm, text: event.target.value ?? '' }
+                      )
+                    )
+                  }
                 />
               </div>
 
@@ -479,30 +484,6 @@ const NewAddress = (props: PageProps) => {
                 }
               </div>
             </div>
-          ) : (
-            <div
-              style={
-                {
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }
-              }
-            >
-              {/*<ActivityIndicator
-                color={Constants.Colors.All.main}
-                size={32}
-            />*/}
-
-              <Label
-                color={Constants.Colors.Text.tertiary}
-                size={14}
-                text='Fetching address information...'
-              />
-            </div>
-          )
-        }
       </Modal>
     </>
   )
