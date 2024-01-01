@@ -21,6 +21,8 @@ const Settings = (props: PageProps) => {
     [bio, setBio] = useState<string>(),
     [accent, setAccent] = useState<string>(),
     [open, setOpen] = useState<boolean>(),
+    [opensAt, setOpensAt] = useState<number>(),
+    [closedAt, setClosedAt] = useState<number>(),
 
     // urls
     [profileUrl, setProfileUrl] = useState<string>(),
@@ -72,7 +74,9 @@ const Settings = (props: PageProps) => {
             logo: profileUrl,
             types,
             accent,
-            open
+            open,
+            opensAt,
+            closedAt
           },
           headers: {
             Authorization: props.token
@@ -132,6 +136,8 @@ const Settings = (props: PageProps) => {
           setTypes(result.value?.types ?? [])
           setAccent(result.value?.accent)
           setOpen(result.value?.open)
+          setOpensAt(result.value?.opensAt)
+          setClosedAt(result.value?.closedAt)
 
           setLoaded(true)
         },
@@ -386,7 +392,7 @@ const Settings = (props: PageProps) => {
         }
       </div>
 
-      <div>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
         <input
           type='checkbox'
           placeholder={'Merchant Opened'}
@@ -395,6 +401,82 @@ const Settings = (props: PageProps) => {
         />
         
         <Label text='Open' />
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'row', gap: 8 }}>
+        <Label text='Open At:' />
+
+        <select
+          onChange={
+            (event) => setOpensAt(
+              Number(event.target.value ?? 0)
+            )
+          }
+        >
+          {
+            (
+              () => {
+                const arr: React.ReactNode[] = []
+
+                for (let i = 0; i < 24; i++) {
+                  arr.push(
+                    <option
+                      value={i + 1}
+                    >
+                      {
+                        i === 0 ? '12 AM' : (
+                          i === 12 ? '12 PM' : (
+                            i < 12 ? `${i} AM` : `${i - 12} PM`
+                          )
+                        )
+                      }
+                    </option>
+                  )
+                }
+
+                return arr
+              }
+            )()
+          }
+        </select>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'row', gap: 8 }}>
+        <Label text='Closes At:' />
+
+        <select
+          onChange={
+            (event) => setClosedAt(
+              Number(event.target.value ?? 0)
+            )
+          }
+        >
+          {
+            (
+              () => {
+                const arr: React.ReactNode[] = []
+
+                for (let i = 0; i < 24; i++) {
+                  arr.push(
+                    <option
+                      value={i + 1}
+                    >
+                      {
+                        i === 0 ? '12 AM' : (
+                          i === 12 ? '12 PM' : (
+                            i < 12 ? `${i} AM` : `${i - 12} PM`
+                          )
+                        )
+                      }
+                    </option>
+                  )
+                }
+
+                return arr
+              }
+            )()
+          }
+        </select>
       </div>
 
       <div
