@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Address, App, Constants } from 'app-types'
 import GoogleMapReact from 'google-map-react'
 import Header from '../../../components/Text/Header'
-import Autocomplete from 'react-google-autocomplete'
 import { useEffect, useState } from 'react'
 import Modal from '../../../components/Display/Modal'
 import Button from '../../../components/Display/Button'
@@ -12,6 +11,7 @@ import useStateRef from 'react-usestateref'
 import Label from '../../../components/Text/Label'
 import { Http } from 'app-structs'
 import { PageProps } from '../../../types'
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
 
 interface AddressForm {
   text?: string
@@ -32,7 +32,14 @@ const NewAddress = (props: PageProps) => {
     [
       [error, message],
       setResult
-    ] = useState([false, ''])
+    ] = useState([false, '']),
+    { isLoaded } = useJsApiLoader(
+      {
+        id: 'google-map-script',
+        googleMapsApiKey: 'AIzaSyAe1O4RsaElYL79mHnPSHRGL_lVCf9uP0M'
+      }
+    ),
+    [map, setMap, mapRef] = useStateRef<google.maps.Map>()
 
   useEffect(
     () => {
@@ -108,6 +115,24 @@ const NewAddress = (props: PageProps) => {
         (currentForm) => (
           { ...currentForm, text: result.value ?? '' }
         )
+      )
+    },
+    onChangeLoc = () => {
+      if (!mapRef.current) return
+      
+      const center = mapRef.current.getCenter(),
+        lat = center?.lat(),
+        lng = center?.lng()
+
+      if (currentPosition?.lat === lat && currentPosition?.lng === lng) return
+
+      console.log('New Location:', lat, lng)
+
+      setCurrentPosition(
+        {
+          lat: lat ?? 0,
+          lng: lng ?? 0
+        }
       )
     }
 
@@ -215,7 +240,7 @@ const NewAddress = (props: PageProps) => {
           />
         </div>
 
-        <GoogleMapReact
+        {/*<GoogleMapReact
           bootstrapURLKeys={
             { key: 'AIzaSyAe1O4RsaElYL79mHnPSHRGL_lVCf9uP0M' }
           }
@@ -229,7 +254,32 @@ const NewAddress = (props: PageProps) => {
           onChange={
             (event) => setCurrentPosition(event.center)
           }
-        />
+        />*/}
+
+        {
+          isLoaded ? (
+            <GoogleMap
+              mapContainerStyle={
+                {
+                  height: '100%',
+                  width: '100%'
+                }
+              }
+              center={
+                {
+                  lat: currentPosition?.lat ?? 14.864412129509162,
+                  lng: currentPosition?.lng ?? 120.28991877528091
+                }
+              }
+              zoom={10}
+              onLoad={
+                (m) => setMap(m)
+              }
+              onDragEnd={onChangeLoc}
+              onZoomChanged={onChangeLoc}
+            />
+          ) : null
+        }
       </div>
 
       <Modal
